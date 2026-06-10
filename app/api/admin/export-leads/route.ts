@@ -2,6 +2,17 @@ import { requireAdminSession } from "@/lib/admin";
 import { getServiceLabel, getStatusLabel } from "@/lib/labels";
 import { prisma } from "@/lib/prisma";
 
+type ExportLead = {
+  fullName: string;
+  phone: string;
+  email: string | null;
+  interestedService: unknown;
+  germanLevel: unknown;
+  status: unknown;
+  source: string;
+  createdAt: Date | string;
+};
+
 export async function GET() {
   const session = await requireAdminSession();
   if (!session) return Response.json({ message: "Unauthorized" }, { status: 401 });
@@ -17,7 +28,7 @@ export async function GET() {
     "Nguồn",
     "Ngày tạo",
   ];
-  const rows = leads.map((lead) => [
+  const rows = leads.map((lead: ExportLead) => [
     lead.fullName,
     lead.phone,
     lead.email ?? "",
@@ -25,7 +36,7 @@ export async function GET() {
     lead.germanLevel,
     getStatusLabel(lead.status),
     lead.source,
-    lead.createdAt.toISOString(),
+    new Date(lead.createdAt).toISOString(),
   ]);
 
   const csv = [headers, ...rows]

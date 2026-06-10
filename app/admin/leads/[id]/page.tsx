@@ -16,6 +16,13 @@ type PageProps = {
   params: Promise<{ id: string }>;
 };
 
+type LeadNoteView = {
+  id: string;
+  content: string;
+  createdBy: string;
+  createdAt: Date | string;
+};
+
 export default async function LeadDetailPage({ params }: PageProps) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/admin");
@@ -68,7 +75,7 @@ export default async function LeadDetailPage({ params }: PageProps) {
             <h2 className="text-lg font-black">Ghi chú tư vấn</h2>
             <div className="mt-4 grid gap-3">
               {lead.notes.length ? (
-                lead.notes.map((note) => (
+                lead.notes.map((note: LeadNoteView) => (
                   <div key={note.id} className="rounded-md border border-neutral-200 p-3 text-sm">
                     <p>{note.content}</p>
                     <p className="mt-2 text-xs text-neutral-500">
