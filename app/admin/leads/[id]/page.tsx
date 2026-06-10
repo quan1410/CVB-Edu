@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { authOptions } from "@/lib/auth";
-import { germanLevelLabels, serviceLabels, statusLabels } from "@/lib/labels";
+import { getGermanLevelLabel, getServiceLabel, getStatusLabel } from "@/lib/labels";
 import { prisma } from "@/lib/prisma";
 import { formatDateTime } from "@/lib/utils";
 
@@ -41,15 +41,15 @@ export default async function LeadDetailPage({ params }: PageProps) {
           <CardContent>
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-2xl font-black">{lead.fullName}</h1>
-              <Badge>{statusLabels[lead.status]}</Badge>
+              <Badge>{getStatusLabel(lead.status)}</Badge>
             </div>
             <div className="mt-5 grid gap-3 text-sm text-neutral-700 md:grid-cols-2">
               <p>Điện thoại: <strong>{lead.phone}</strong></p>
               <p>Email: {lead.email ?? "Không cung cấp"}</p>
               <p>Tuổi: {lead.age ?? "Không cung cấp"}</p>
               <p>Tỉnh/thành: {lead.city ?? "Không cung cấp"}</p>
-              <p>Dịch vụ: {serviceLabels[lead.interestedService]}</p>
-              <p>Tiếng Đức: {germanLevelLabels[lead.germanLevel]}</p>
+              <p>Dịch vụ: {getServiceLabel(lead.interestedService)}</p>
+              <p>Tiếng Đức: {getGermanLevelLabel(lead.germanLevel)}</p>
               <p>Nguồn: {lead.source}</p>
               <p>Ngày tạo: {formatDateTime(lead.createdAt)}</p>
               <p>UTM source: {lead.utmSource ?? "-"}</p>

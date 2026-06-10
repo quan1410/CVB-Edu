@@ -24,3 +24,20 @@ export const statusLabels: Record<LeadStatus, string> = {
   KHONG_PHU_HOP: "Không phù hợp",
   DA_CHOT: "Đã chốt",
 };
+
+export function getStatusLabel(value: unknown) {
+  return getLabel(statusLabels, value);
+}
+
+export function getServiceLabel(value: unknown) {
+  return getLabel(serviceLabels, value);
+}
+
+export function getGermanLevelLabel(value: unknown) {
+  return getLabel(germanLevelLabels, value);
+}
+
+function getLabel<T extends Record<string, string>>(labels: T, value: unknown) {
+  if (typeof value !== "string") return "-";
+  return labels[value as keyof T] ?? value;
+}

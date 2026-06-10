@@ -1,5 +1,5 @@
 import { requireAdminSession } from "@/lib/admin";
-import { serviceLabels, statusLabels } from "@/lib/labels";
+import { getServiceLabel, getStatusLabel } from "@/lib/labels";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
@@ -21,9 +21,9 @@ export async function GET() {
     lead.fullName,
     lead.phone,
     lead.email ?? "",
-    serviceLabels[lead.interestedService],
+    getServiceLabel(lead.interestedService),
     lead.germanLevel,
-    statusLabels[lead.status],
+    getStatusLabel(lead.status),
     lead.source,
     lead.createdAt.toISOString(),
   ]);
