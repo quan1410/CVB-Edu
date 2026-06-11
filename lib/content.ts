@@ -151,8 +151,8 @@ export const programSeed = [
     title: "Đào tạo tiếng Đức",
     slug: "dao-tao-tieng-duc",
     description:
-      "Lộ trình học tiếng Đức từ A1 đến B1/B2, tập trung giao tiếp, phỏng vấn và hồ sơ du học nghề.",
-    benefits: ["Lớp theo mục tiêu", "Theo dõi tiến độ", "Luyện phỏng vấn thực tế"],
+      "Lộ trình học tiếng Đức từ A1 đến B1, có mốc học chính thức, buổi thi và ôn thi rõ ràng.",
+    benefits: ["A1: 50 buổi", "A2: 50 buổi", "B1: 60 buổi và ôn thi"],
   },
   {
     title: "Tư vấn hồ sơ visa",
@@ -287,18 +287,25 @@ export const faqSeed = [
 
 export const courseSeed = [
   {
-    title: "Tiếng Đức A1 nền tảng",
+    title: "Tiếng Đức A1",
     slug: "tieng-duc-a1",
     level: "A1",
-    description: "Phát âm, ngữ pháp nền, giao tiếp cơ bản và thói quen học tiếng Đức.",
-    duration: "10-12 tuần",
+    description: "47 buổi học chính thức xây nền phát âm, ngữ pháp, giao tiếp cơ bản và thói quen học tiếng Đức; 3 buổi dành cho kiểm tra/thi.",
+    duration: "50 buổi: 47 buổi học chính thức, 3 buổi thi",
   },
   {
-    title: "Tiếng Đức A2-B1 hồ sơ nghề",
-    slug: "tieng-duc-a2-b1",
-    level: "A2-B1",
-    description: "Tập trung nghe nói, phỏng vấn, từ vựng nghề và chuẩn bị hồ sơ.",
-    duration: "20-28 tuần",
+    title: "Tiếng Đức A2",
+    slug: "tieng-duc-a2",
+    level: "A2",
+    description: "Mở rộng ngữ pháp, từ vựng đời sống, phản xạ nghe nói và khả năng giao tiếp trong các tình huống thường gặp.",
+    duration: "50 buổi",
+  },
+  {
+    title: "Tiếng Đức B1",
+    slug: "tieng-duc-b1",
+    level: "B1",
+    description: "Tập trung giao tiếp độc lập, viết - nói theo chủ đề, luyện phỏng vấn và củng cố kiến thức trước kỳ thi.",
+    duration: "60 buổi và ôn thi",
   },
 ];
 
