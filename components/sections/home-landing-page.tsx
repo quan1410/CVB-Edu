@@ -30,6 +30,7 @@ import {
   testimonialSeed,
   timeline,
   trustStats,
+  contactConfig,
 } from "@/lib/content";
 import { trackEvent } from "@/lib/tracking";
 
@@ -107,34 +108,16 @@ function HeroSection() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.08 }}
-          className="self-center rounded-lg border border-white/15 bg-white/95 p-5 shadow-2xl shadow-black/30"
+          className="flex items-center justify-center self-center"
         >
-          <div className="relative overflow-hidden rounded-md">
-            <Image
-              src={heroImage}
-              alt="Cảnh quan Đức đại diện cho hành trình học tập và làm việc"
-              width={720}
-              height={430}
-              className="aspect-[16/10] w-full object-cover"
-              priority
-            />
-            <div className="absolute left-4 top-4 rounded-md bg-[#DD0000] px-3 py-2 text-sm font-black text-white">
-              Hồ sơ 1:1
-            </div>
-          </div>
-          <div className="mt-5 grid gap-3">
-            {[
-              "Kiểm tra điều kiện ngành nghề",
-              "Ước tính mốc tiếng Đức cần đạt",
-              "Rà soát rủi ro hồ sơ và visa",
-              "Gợi ý bước tiếp theo trong 15 phút",
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3 rounded-md bg-neutral-50 p-3">
-                <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
-                <p className="text-sm font-semibold leading-6 text-neutral-800">{item}</p>
-              </div>
-            ))}
-          </div>
+          <Image
+            src={contactConfig.consultantAvatar}
+            alt="Chuyên viên tư vấn CVB Edu"
+            width={620}
+            height={620}
+            className="w-full max-w-[440px] rounded-lg bg-white object-contain p-3 shadow-2xl shadow-black/30 ring-1 ring-white/30 sm:max-w-[520px]"
+            priority
+          />
         </motion.div>
       </div>
     </section>
