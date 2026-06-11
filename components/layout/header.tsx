@@ -29,15 +29,15 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-[112px] max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center" aria-label="CVB EDU trang chủ">
           <Image
             src={contactConfig.logo}
             alt={`${contactConfig.brand} logo`}
-            width={160}
-            height={70}
+            width={240}
+            height={105}
             priority
-            className="h-[55px] w-auto rounded-md object-contain"
+            className="h-[83px] w-auto rounded-md object-contain"
           />
         </Link>
 

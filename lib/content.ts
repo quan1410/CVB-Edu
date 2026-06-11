@@ -43,10 +43,10 @@ export const navItems = [
 ];
 
 export const trustStats = [
-  { value: "3.247+", label: "học viên được tư vấn" },
-  { value: "98%", label: "hồ sơ được định hướng đúng lộ trình" },
-  { value: "50+", label: "ngành nghề tại Đức" },
-  { value: "A-Z", label: "đồng hành từ Việt Nam đến Đức" },
+  { label: "Đào tạo từ con số 0" },
+  { label: "Cam kết đầu ra với các chính sách, quyền lợi phù hợp" },
+  { label: "Rõ ràng, minh bạch" },
+  { label: "Đồng hành cùng học viên đến khi cất cánh" },
 ];
 
 export const painPoints = [

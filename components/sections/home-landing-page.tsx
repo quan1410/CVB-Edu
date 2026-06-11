@@ -70,10 +70,7 @@ function HeroSection() {
           transition={{ duration: 0.5 }}
           className="max-w-3xl text-white"
         >
-          <Badge className="border-yellow-300/50 bg-yellow-300/15 text-yellow-200">
-            Mở hồ sơ 2025 - 2026
-          </Badge>
-          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-normal sm:text-5xl lg:text-6xl">
+          <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-normal sm:text-5xl lg:text-6xl">
             Du Học Nghề Đức & Công Nhận Bằng CHLB Đức
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-neutral-100 sm:text-lg">
@@ -94,9 +91,9 @@ function HeroSection() {
 
         <div className="grid gap-3 self-end sm:grid-cols-2">
           {trustStats.map((stat) => (
-            <div key={stat.label} className="rounded-lg border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
-              <p className="text-2xl font-black text-[#FFCE00]">{stat.value}</p>
-              <p className="mt-1 text-sm leading-5 text-neutral-100">{stat.label}</p>
+            <div key={stat.label} className="flex items-start gap-3 rounded-lg border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#FFCE00]" />
+              <p className="text-sm font-semibold leading-6 text-neutral-100">{stat.label}</p>
             </div>
           ))}
         </div>
