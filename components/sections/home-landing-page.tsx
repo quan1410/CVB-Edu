@@ -262,8 +262,7 @@ function RecognitionSection() {
     <section id="cong-nhan-bang" className="bg-[#0B0B0B] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div>
-          <Badge className="border-yellow-300/40 bg-yellow-300/10 text-yellow-200">Công nhận bằng</Badge>
-          <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">
+          <h2 className="text-3xl font-black leading-tight sm:text-4xl">
             Đã có bằng tại Việt Nam? Hãy kiểm tra khả năng công nhận tại Đức
           </h2>
           <p className="mt-5 text-sm leading-7 text-neutral-300">
@@ -347,8 +346,7 @@ function ContactSection() {
     <section id="lien-he" className="bg-neutral-50">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
         <div>
-          <Badge>Đăng ký tư vấn</Badge>
-          <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">
+          <h2 className="text-3xl font-black leading-tight sm:text-4xl">
             Đăng ký tư vấn miễn phí
           </h2>
           <p className="mt-4 text-sm leading-7 text-neutral-600">
@@ -375,7 +373,7 @@ function ContactSection() {
 
 function Section({
   id,
-  eyebrow,
+  eyebrow: _eyebrow,
   title,
   className = "",
   children,
@@ -386,12 +384,13 @@ function Section({
   className?: string;
   children: React.ReactNode;
 }) {
+  void _eyebrow;
+
   return (
     <section id={id} className={className}>
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-9 max-w-3xl">
-          <Badge>{eyebrow}</Badge>
-          <h2 className="mt-4 text-3xl font-black leading-tight tracking-normal sm:text-4xl">
+          <h2 className="text-3xl font-black leading-tight tracking-normal sm:text-4xl">
             {title}
           </h2>
         </div>

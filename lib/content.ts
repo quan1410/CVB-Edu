@@ -28,9 +28,9 @@ export const contactConfig = {
   address:
     "Tầng 5, tòa nhà Song Long, KĐT Nam Trung Yên, Yên Hòa, Cầu Giấy, Hà Nội, Hanoi, Vietnam",
   zalo: "https://zalo.me/0774300969",
-  facebook: "https://www.facebook.com/vuong.quan.tvdh14/",
+  facebook: "https://www.facebook.com/profile.php?id=61589713376844",
   tiktok: "",
-  messenger: "https://www.facebook.com/vuong.quan.tvdh14/",
+  messenger: "https://www.facebook.com/profile.php?id=61589713376844",
 };
 
 export const navItems = [
