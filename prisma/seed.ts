@@ -1,7 +1,30 @@
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
+import { Pool } from "pg";
 import { courseSeed, faqSeed, jobFieldSeed, programSeed, testimonialSeed } from "../lib/content";
 
-const prisma = new PrismaClient();
+function createPoolConfig(connectionString: string | undefined) {
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is required");
+  }
+
+  const url = new URL(connectionString);
+
+  return {
+    host: url.hostname,
+    port: Number(url.port || 5432),
+    database: url.pathname.slice(1),
+    user: decodeURIComponent(url.username),
+    password: decodeURIComponent(url.password),
+    ssl: url.searchParams.get("sslmode") === "require" ? { rejectUnauthorized: false } : undefined,
+  };
+}
+
+const pool = new Pool(createPoolConfig(process.env.DATABASE_URL));
+const adapter = new PrismaPg(pool);
+
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   await Promise.all(
@@ -25,13 +48,20 @@ async function main() {
   );
 
   await Promise.all(
-    jobFieldSeed.map((field) =>
-      prisma.jobField.upsert({
-        where: { slug: field.slug },
-        update: field,
-        create: field,
-      }),
-    ),
+    jobFieldSeed.map((field) => {
+      const jobField = {
+        name: field.name,
+        slug: field.slug,
+        description: field.description,
+        icon: field.icon,
+      };
+
+      return prisma.jobField.upsert({
+        where: { slug: jobField.slug },
+        update: jobField,
+        create: jobField,
+      });
+    }),
   );
 
   await Promise.all(
