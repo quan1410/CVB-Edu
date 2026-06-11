@@ -83,6 +83,15 @@ export function LeadForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="grid gap-4"
     >
+      <div>
+        <h3 className="text-2xl font-black leading-tight">
+          Đăng ký kiểm tra lộ trình miễn phí
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-neutral-600">
+          Điền thông tin cơ bản để tư vấn viên liên hệ, đánh giá nhanh điều kiện và đề xuất bước tiếp theo.
+        </p>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <Field label="Họ và tên" error={errors.fullName?.message}>
           <Input placeholder="Nguyễn Văn A" {...register("fullName")} />
@@ -150,12 +159,12 @@ export function LeadForm() {
       </label>
 
       {status === "success" ? (
-        <div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
-          Thông tin đã được gửi. Đội tư vấn sẽ liên hệ với bạn trong thời gian sớm nhất.
+        <div role="status" className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
+          Đã nhận thông tin. Đội tư vấn sẽ liên hệ với bạn trong thời gian sớm nhất.
         </div>
       ) : null}
       {status === "error" ? (
-        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div role="alert" className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           Chưa thể gửi thông tin. Vui lòng kiểm tra lại hoặc gọi hotline để được hỗ trợ.
         </div>
       ) : null}
@@ -164,6 +173,9 @@ export function LeadForm() {
         <Send className="h-4 w-4" />
         {isSubmitting ? "Đang gửi..." : "Gửi thông tin tư vấn"}
       </Button>
+      <p className="text-xs leading-5 text-neutral-500">
+        Thông tin của bạn được bảo mật và chỉ sử dụng để tư vấn lộ trình phù hợp.
+      </p>
     </form>
   );
 }

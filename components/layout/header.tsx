@@ -11,6 +11,8 @@ import { trackEvent } from "@/lib/tracking";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const phoneHref = contactConfig.hotline.replaceAll(" ", "");
+  const phoneDisplay = "0774 300 969";
 
   const nav = (
     <>
@@ -45,9 +47,9 @@ export function Header() {
 
         <div className="hidden items-center gap-2 lg:flex">
           <Button asChild variant="outline" size="sm">
-            <a href={`tel:${contactConfig.hotline.replaceAll(" ", "")}`} onClick={() => trackEvent("click_hotline")}>
+            <a href={`tel:${phoneHref}`} onClick={() => trackEvent("click_hotline")}>
               <Phone className="h-4 w-4" />
-              Hotline
+              Hotline: {phoneDisplay}
             </a>
           </Button>
           <Button asChild size="sm">
@@ -70,6 +72,12 @@ export function Header() {
       {open ? (
         <div className="border-t border-neutral-200 bg-white px-4 py-4 lg:hidden">
           <nav className="grid gap-1">{nav}</nav>
+          <Button asChild className="mt-3 w-full" variant="outline">
+            <a href={`tel:${phoneHref}`} onClick={() => setOpen(false)}>
+              <Phone className="h-4 w-4" />
+              Hotline: {phoneDisplay}
+            </a>
+          </Button>
           <Button asChild className="mt-3 w-full">
             <a href="#lien-he" onClick={() => setOpen(false)}>
               Tư vấn miễn phí

@@ -35,8 +35,8 @@ export const contactConfig = {
 
 export const navItems = [
   { label: "Lộ Trình", href: "#lo-trinh" },
-  { label: "Chương Trình", href: "#chuong-trinh" },
-  { label: "Đào Tạo", href: "#dao-tao" },
+  { label: "Dịch Vụ", href: "#chuong-trinh" },
+  { label: "Học Tiếng", href: "#dao-tao" },
   { label: "Công Nhận Bằng", href: "#cong-nhan-bang" },
   { label: "Cam Kết", href: "#cam-ket" },
   { label: "Liên Hệ", href: "#lien-he" },
@@ -52,33 +52,33 @@ export const trustStats = [
 export const painPoints = [
   {
     icon: Map,
-    title: "Chưa biết chọn ngành nào",
-    text: "Được phân tích năng lực, sở thích, tài chính và mục tiêu nghề nghiệp trước khi chọn lộ trình.",
+    title: "Chưa biết chọn ngành",
+    text: "Phân tích năng lực, sở thích và mục tiêu nghề nghiệp trước khi chọn lộ trình.",
   },
   {
     icon: Languages,
-    title: "Không rõ cần tiếng Đức đến đâu",
-    text: "Tư vấn mốc A1-B2 phù hợp với chương trình, lịch phỏng vấn và hồ sơ visa.",
+    title: "Chưa có tiếng Đức",
+    text: "Xác định mốc A1-B2 phù hợp với hồ sơ, phỏng vấn và thời điểm nộp.",
   },
   {
     icon: FileCheck2,
-    title: "Lo hồ sơ, visa, tài chính",
-    text: "Có checklist giấy tờ, timeline và người theo sát từng bước chuẩn bị.",
-  },
-  {
-    icon: Award,
-    title: "Đã có bằng tại Việt Nam",
-    text: "Kiểm tra khả năng công nhận bằng, bổ sung hồ sơ hoặc học chuyển đổi nếu cần.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Sợ bị tư vấn sai lộ trình",
-    text: "Tập trung điều kiện thực tế, không vẽ cam kết vượt quá năng lực hồ sơ.",
+    title: "Lo hồ sơ visa",
+    text: "Có checklist giấy tờ, mốc thời gian và người theo sát từng bước chuẩn bị.",
   },
   {
     icon: ClipboardCheck,
-    title: "Chưa biết chi phí thật",
-    text: "Tách rõ chi phí học tiếng, hồ sơ, dịch thuật, visa và khoản dự phòng.",
+    title: "Chưa rõ chi phí",
+    text: "Bóc tách chi phí học tiếng, hồ sơ, dịch thuật, visa và khoản dự phòng.",
+  },
+  {
+    icon: Award,
+    title: "Muốn công nhận bằng",
+    text: "Kiểm tra văn bằng, kinh nghiệm và khả năng chuyển đổi sang hệ thống Đức.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Cần lộ trình cá nhân hóa",
+    text: "Không dùng một kịch bản cho mọi hồ sơ; mỗi bạn có một hướng đi riêng.",
   },
 ];
 
@@ -110,12 +110,26 @@ export const services = [
 ];
 
 export const timeline = [
-  "Tư vấn định hướng cá nhân",
-  "Đánh giá hồ sơ, bằng cấp, năng lực tiếng Đức",
-  "Lựa chọn ngành nghề hoặc hướng công nhận bằng",
-  "Đào tạo tiếng Đức và hoàn thiện hồ sơ",
-  "Nộp hồ sơ, phỏng vấn, xin visa",
-  "Sang Đức học tập, làm việc và ổn định cuộc sống",
+  {
+    title: "Tư vấn năng lực & mục tiêu",
+    text: "Nắm nền tảng học tập, tài chính, kinh nghiệm và mong muốn nghề nghiệp.",
+  },
+  {
+    title: "Chọn ngành, bang, chương trình",
+    text: "Đề xuất hướng phù hợp với hồ sơ và cơ hội thực tế tại Đức.",
+  },
+  {
+    title: "Học tiếng Đức & chuẩn bị hồ sơ",
+    text: "Theo dõi tiến độ học, giấy tờ, dịch thuật và lịch nộp.",
+  },
+  {
+    title: "Nộp hồ sơ, phỏng vấn, visa",
+    text: "Rà soát lỗi thường gặp và luyện phỏng vấn theo từng mục tiêu.",
+  },
+  {
+    title: "Bay sang Đức & đồng hành sau nhập học",
+    text: "Tiếp tục hỗ trợ hòa nhập, cập nhật tiến độ và xử lý vấn đề phát sinh.",
+  },
 ];
 
 export const programSeed = [
@@ -150,16 +164,16 @@ export const programSeed = [
 ];
 
 export const jobFieldSeed = [
-  { name: "Điều dưỡng", slug: "dieu-duong", icon: "HeartPulse", description: "Phù hợp người kiên nhẫn, thích chăm sóc sức khỏe cộng đồng." },
-  { name: "Nhà hàng - Khách sạn", slug: "nha-hang-khach-san", icon: "Hotel", description: "Phù hợp người thích dịch vụ, giao tiếp và môi trường quốc tế." },
-  { name: "Cơ khí", slug: "co-khi", icon: "Wrench", description: "Phù hợp người thích kỹ thuật, máy móc và thao tác thực hành." },
-  { name: "Điện - Điện tử", slug: "dien-dien-tu", icon: "Cpu", description: "Phù hợp người có nền tảng kỹ thuật và tư duy hệ thống." },
-  { name: "Công nghệ thông tin", slug: "cong-nghe-thong-tin", icon: "Cpu", description: "Phù hợp người yêu thích phần mềm, dữ liệu và tự học tốt." },
-  { name: "Xây dựng", slug: "xay-dung", icon: "Building2", description: "Phù hợp người có sức khỏe, kỷ luật và thích công trình thực tế." },
-  { name: "Logistics", slug: "logistics", icon: "Truck", description: "Phù hợp người thích vận hành, kho bãi, chuỗi cung ứng." },
-  { name: "Bán hàng", slug: "ban-hang", icon: "Users", description: "Phù hợp người giao tiếp tốt, thích tư vấn khách hàng." },
-  { name: "Chế biến thực phẩm", slug: "che-bien-thuc-pham", icon: "ChefHat", description: "Phù hợp người tỉ mỉ, thích sản xuất và tiêu chuẩn chất lượng." },
-  { name: "Làm bánh", slug: "lam-banh", icon: "ChefHat", description: "Phù hợp người khéo tay, thích nghề thủ công và sáng tạo." },
+  { name: "Điều dưỡng", slug: "dieu-duong", icon: "HeartPulse", description: "Phù hợp người kiên nhẫn, thích chăm sóc sức khỏe cộng đồng.", salary: "1.100-1.300 EUR/tháng", germanLevel: "B1-B2", fit: "Rất phù hợp nếu bạn bền bỉ và có tinh thần phục vụ." },
+  { name: "Nhà hàng - Khách sạn", slug: "nha-hang-khach-san", icon: "Hotel", description: "Phù hợp người thích dịch vụ, giao tiếp và môi trường quốc tế.", salary: "950-1.200 EUR/tháng", germanLevel: "A2-B1", fit: "Phù hợp với bạn năng động, thích gặp khách hàng." },
+  { name: "Cơ khí", slug: "co-khi", icon: "Wrench", description: "Phù hợp người thích kỹ thuật, máy móc và thao tác thực hành.", salary: "1.000-1.250 EUR/tháng", germanLevel: "A2-B1", fit: "Tốt cho hồ sơ thích thực hành và có tư duy kỹ thuật." },
+  { name: "Điện - Điện tử", slug: "dien-dien-tu", icon: "Cpu", description: "Phù hợp người có nền tảng kỹ thuật và tư duy hệ thống.", salary: "1.000-1.300 EUR/tháng", germanLevel: "B1", fit: "Phù hợp nếu bạn thích lắp đặt, kiểm tra và vận hành hệ thống." },
+  { name: "Công nghệ thông tin", slug: "cong-nghe-thong-tin", icon: "Cpu", description: "Phù hợp người yêu thích phần mềm, dữ liệu và tự học tốt.", salary: "1.050-1.350 EUR/tháng", germanLevel: "B1-B2", fit: "Tốt với hồ sơ có nền tảng tin học và khả năng tự học." },
+  { name: "Xây dựng", slug: "xay-dung", icon: "Building2", description: "Phù hợp người có sức khỏe, kỷ luật và thích công trình thực tế.", salary: "1.000-1.250 EUR/tháng", germanLevel: "A2-B1", fit: "Phù hợp người thích môi trường ngoài hiện trường." },
+  { name: "Logistics", slug: "logistics", icon: "Truck", description: "Phù hợp người thích vận hành, kho bãi, chuỗi cung ứng.", salary: "950-1.200 EUR/tháng", germanLevel: "A2-B1", fit: "Tốt cho bạn cẩn thận, có tư duy tổ chức và vận hành." },
+  { name: "Bán hàng", slug: "ban-hang", icon: "Users", description: "Phù hợp người giao tiếp tốt, thích tư vấn khách hàng.", salary: "900-1.150 EUR/tháng", germanLevel: "B1", fit: "Phù hợp nếu bạn tự tin giao tiếp và xử lý tình huống." },
+  { name: "Chế biến thực phẩm", slug: "che-bien-thuc-pham", icon: "ChefHat", description: "Phù hợp người tỉ mỉ, thích sản xuất và tiêu chuẩn chất lượng.", salary: "900-1.150 EUR/tháng", germanLevel: "A2-B1", fit: "Tốt cho bạn thích quy trình, vệ sinh và tiêu chuẩn rõ ràng." },
+  { name: "Làm bánh", slug: "lam-banh", icon: "ChefHat", description: "Phù hợp người khéo tay, thích nghề thủ công và sáng tạo.", salary: "900-1.150 EUR/tháng", germanLevel: "A2-B1", fit: "Phù hợp người kiên trì, thích sản phẩm thủ công và chi tiết." },
 ];
 
 export const jobIcons = {
@@ -175,12 +189,36 @@ export const jobIcons = {
 };
 
 export const commitments = [
-  "Tư vấn đúng năng lực, không vẽ lộ trình ảo",
-  "Minh bạch chi phí",
-  "Rõ ràng từng bước hồ sơ",
-  "Đồng hành từ lúc học tiếng Đức đến khi sang Đức",
-  "Hỗ trợ phụ huynh theo dõi tiến độ",
-  "Bảo mật thông tin cá nhân",
+  {
+    title: "Tư vấn cá nhân hóa",
+    text: "Đánh giá từng hồ sơ theo năng lực, mục tiêu, tài chính và thời điểm nộp.",
+    icon: Users,
+  },
+  {
+    title: "Minh bạch chi phí",
+    text: "Bóc tách rõ khoản học tiếng, hồ sơ, dịch thuật, visa và chi phí dự phòng.",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Đồng hành hồ sơ",
+    text: "Theo sát từ checklist giấy tờ, phỏng vấn đến lịch hẹn và kết quả xử lý.",
+    icon: FileCheck2,
+  },
+  {
+    title: "Định hướng ngành phù hợp",
+    text: "Không chọn ngành theo phong trào; ưu tiên ngành khớp hồ sơ và khả năng hòa nhập.",
+    icon: BriefcaseBusiness,
+  },
+  {
+    title: "Hỗ trợ trước và sau khi sang Đức",
+    text: "Tiếp tục đồng hành trong giai đoạn chuẩn bị bay, nhập học và ổn định ban đầu.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Kết nối chương trình đa ngành",
+    text: "Tư vấn du học nghề, học tiếng và công nhận bằng theo nhiều nhóm ngành thực tế.",
+    icon: GraduationCap,
+  },
 ];
 
 export const testimonialSeed = [
@@ -265,12 +303,11 @@ export const courseSeed = [
 ];
 
 export const recognitionSteps = [
-  "Kiểm tra bằng cấp hiện có",
-  "Đối chiếu với yêu cầu nghề tại Đức",
-  "Tư vấn hồ sơ cần chuẩn bị",
-  "Dịch thuật, công chứng, hợp pháp hóa",
-  "Nộp hồ sơ tới cơ quan có thẩm quyền",
-  "Theo dõi kết quả và tư vấn bước tiếp theo",
+  "Kiểm tra văn bằng",
+  "Đánh giá khả năng công nhận",
+  "Chuẩn bị hồ sơ dịch thuật/công chứng",
+  "Hỗ trợ gửi hồ sơ sang Đức",
+  "Theo dõi kết quả",
 ];
 
 export const heroImage =
