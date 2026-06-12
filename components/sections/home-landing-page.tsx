@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -10,6 +10,7 @@ import {
   ChevronRight,
   GraduationCap,
   Plane,
+  Search,
   Sparkles,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -19,6 +20,7 @@ import { LeadForm } from "@/components/forms/lead-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   commitments,
   courseSeed,
@@ -266,8 +268,28 @@ function ProgramsSection() {
 
 function JobOrdersSection() {
   const [page, setPage] = useState(0);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(0);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const queryParams = new URLSearchParams({
+    status: "OPEN",
+    page: page.toString(),
+    size: "8",
+  });
+  if (debouncedSearch) {
+    queryParams.append("keyword", debouncedSearch);
+  }
+
   const { data, error, isLoading } = useSWR(
-    `/api/job-orders?status=OPEN&page=${page}&size=8`,
+    `/api/job-orders?${queryParams.toString()}`,
     fetcher,
     { revalidateOnFocus: false, revalidateOnReconnect: false }
   );
@@ -277,10 +299,30 @@ function JobOrdersSection() {
 
   return (
     <Section id="nganh-nghe" eyebrow="Tuyển dụng" title="Vị trí du học nghề đang mở">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-xl text-sm leading-6 text-neutral-600">
+          Khám phá các vị trí du học nghề đang mở tại Đức. Sử dụng thanh tìm kiếm để nhanh chóng tìm thấy chuyên ngành hoặc thành phố bạn quan tâm.
+        </p>
+        <div className="relative w-full sm:max-w-sm">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+          <Input
+            type="search"
+            placeholder="Tìm theo tên ngành, thành phố..."
+            className="pl-9 bg-white"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+      </div>
+
       {isLoading ? (
-        <div className="flex justify-center text-sm text-neutral-500">Đang tải danh sách vị trí...</div>
+        <div className="flex justify-center py-10 text-sm font-medium text-neutral-500">Đang tải danh sách vị trí...</div>
       ) : error ? (
-        <div className="text-sm text-red-500">Không thể tải danh sách vị trí.</div>
+        <div className="py-10 text-center text-sm font-medium text-red-500">Không thể tải danh sách vị trí. Vui lòng thử lại sau.</div>
+      ) : jobOrders.length === 0 ? (
+        <div className="py-10 text-center text-sm font-medium text-neutral-500">
+          Không tìm thấy vị trí nào phù hợp với "{debouncedSearch}".
+        </div>
       ) : (
         <>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
