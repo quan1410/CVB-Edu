@@ -23,6 +23,9 @@ export function Footer() {
           <p className="mt-4 max-w-xl text-sm leading-6 text-neutral-300">
             Tư vấn du học nghề Đức, công nhận bằng CHLB Đức, đào tạo tiếng Đức và hồ sơ visa theo lộ trình minh bạch, phù hợp năng lực thực tế.
           </p>
+          <p className="mt-3 max-w-xl text-sm italic leading-6 text-neutral-400">
+            Chúng tôi là ủy quyền, không phải trang web chính thức của CVB EDU.
+          </p>
         </div>
         <div className="grid gap-2 text-sm text-neutral-300">
           <p className="font-semibold text-white">Menu nhanh</p>
