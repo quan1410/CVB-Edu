@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
   BookOpen,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   GraduationCap,
   Plane,
   Sparkles,
@@ -21,8 +24,6 @@ import {
   courseSeed,
   faqSeed,
   heroImage,
-  jobFieldSeed,
-  jobIcons,
   painPoints,
   programSeed,
   recognitionSteps,
@@ -33,6 +34,21 @@ import {
   contactConfig,
 } from "@/lib/content";
 import { trackEvent } from "@/lib/tracking";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+type JobOrderCard = {
+  id: number | string;
+  title: string;
+  titleGerman?: string;
+  description?: string;
+  salaryNote?: string;
+  locationCity?: string;
+  locationState?: string;
+  slots?: number;
+  filledSlots?: number;
+};
 
 export function HomeLandingPage() {
   return (
@@ -42,7 +58,7 @@ export function HomeLandingPage() {
       <SolutionSection />
       <TimelineSection />
       <ProgramsSection />
-      <JobFieldsSection />
+      <JobOrdersSection />
       <TrainingSection />
       <RecognitionSection />
       <CommitmentSection />
@@ -248,38 +264,73 @@ function ProgramsSection() {
   );
 }
 
-function JobFieldsSection() {
+function JobOrdersSection() {
+  const [page, setPage] = useState(0);
+  const { data, error, isLoading } = useSWR(
+    `/api/job-orders?status=OPEN&page=${page}&size=8`,
+    fetcher,
+    { revalidateOnFocus: false, revalidateOnReconnect: false }
+  );
+
+  const jobOrders: JobOrderCard[] = data?.data?.content ?? [];
+  const totalPages = data?.data?.totalPages ?? 0;
+
   return (
-    <Section id="nganh-nghe" eyebrow="Ngành nghề" title="Ngành nghề du học nghề Đức được quan tâm">
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {jobFieldSeed.map((field) => {
-          const Icon = jobIcons[field.icon as keyof typeof jobIcons] ?? BookOpen;
-          return (
-            <Card key={field.slug} className="transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
-              <CardContent className="flex h-full flex-col p-4">
-                <span className="grid h-11 w-11 place-items-center rounded-md bg-red-50 text-red-700">
-                  <Icon className="h-6 w-6" />
-                </span>
-                <h3 className="mt-3 text-base font-black">{field.name}</h3>
-                <p className="mt-2 text-sm leading-5 text-neutral-600">{field.description}</p>
-                <div className="mt-4 grid gap-2 text-xs text-neutral-700">
-                  <InfoRow label="Lương tham khảo" value={field.salary} />
-                  <InfoRow label="Tiếng Đức" value={field.germanLevel} />
-                  <InfoRow label="Mức phù hợp" value={field.fit} />
-                </div>
-                <Button asChild className="mt-4 w-full" size="sm" variant="outline">
-                  <a
-                    href="#lien-he"
-                    onClick={() => trackEvent("job_field_selected", { jobField: field.slug })}
-                  >
-                    Tư vấn ngành này
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+    <Section id="nganh-nghe" eyebrow="Tuyển dụng" title="Vị trí du học nghề đang mở">
+      {isLoading ? (
+        <div className="flex justify-center text-sm text-neutral-500">Đang tải danh sách vị trí...</div>
+      ) : error ? (
+        <div className="text-sm text-red-500">Không thể tải danh sách vị trí.</div>
+      ) : (
+        <>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {jobOrders.map((job: JobOrderCard) => (
+              <Card key={job.id} className="transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
+                <CardContent className="flex h-full flex-col p-4">
+                  <span className="grid h-11 w-11 place-items-center rounded-md bg-red-50 text-red-700">
+                    <BookOpen className="h-6 w-6" />
+                  </span>
+                  <h3 className="mt-3 text-base font-black">{job.title}</h3>
+                  <div className="mb-2 text-xs font-semibold text-neutral-500">{job.titleGerman}</div>
+                  <p className="mt-2 line-clamp-3 text-sm leading-5 text-neutral-600">{job.description}</p>
+                  <Button asChild className="mt-auto" size="sm" variant="outline">
+                    <a
+                      href={`/job-orders/${job.id}`}
+                      onClick={() => trackEvent("job_order_details_viewed", { jobOrderId: job.id, jobTitle: job.title })}
+                    >
+                      Xem chi tiết
+                    </a>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-3">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={page === 0}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <div className="text-sm font-semibold text-neutral-600">
+                Trang {page + 1} / {totalPages}
+              </div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                disabled={page >= totalPages - 1}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </>
+      )}
     </Section>
   );
 }
@@ -476,11 +527,3 @@ function Section({
   );
 }
 
-function InfoRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-md bg-neutral-50 p-2">
-      <p className="font-semibold text-neutral-500">{label}</p>
-      <p className="mt-1 font-bold leading-5 text-neutral-900">{value}</p>
-    </div>
-  );
-}

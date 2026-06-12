@@ -53,7 +53,7 @@ export function Footer() {
             alt="QR Zalo CVB Edu"
             width={110}
             height={160}
-            className="mt-2 rounded-md bg-white object-cover"
+            className="mt-2 h-[160px] w-auto rounded-md bg-white object-cover"
           />
         </div>
       </div>
