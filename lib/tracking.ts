@@ -7,6 +7,7 @@ export type TrackingEvent =
   | "program_selected"
   | "job_field_selected"
   | "job_order_selected"
+  | "job_order_details_viewed"
   | "click_hotline"
   | "click_zalo"
   | "click_messenger";
