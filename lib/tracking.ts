@@ -1,14 +1,15 @@
 "use client";
 
 export type TrackingEvent =
-  | "click_cta"
-  | "click_hotline"
-  | "click_zalo"
-  | "click_messenger"
   | "lead_form_started"
   | "lead_submitted"
+  | "click_cta"
   | "program_selected"
-  | "job_field_selected";
+  | "job_field_selected"
+  | "job_order_selected"
+  | "click_hotline"
+  | "click_zalo"
+  | "click_messenger";
 
 declare global {
   interface Window {
