@@ -75,7 +75,7 @@ const cardReveal = {
 
 export function HomeLandingPage() {
   return (
-    <main className="bg-white text-neutral-950">
+    <main className="overflow-x-hidden bg-white text-neutral-950">
       <HeroSection />
       <PainPointSection />
       <SolutionSection />
