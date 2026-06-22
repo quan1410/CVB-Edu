@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { StickyContact } from "@/components/layout/sticky-contact";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Banknote, Users, Calendar, CheckCircle2, ListChecks } from "lucide-react";
 import Link from "next/link";

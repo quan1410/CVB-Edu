@@ -1,42 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
-  BadgeCheck,
   BookOpen,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  GraduationCap,
-  Plane,
+  ClipboardCheck,
+  Phone,
   Search,
-  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import useSWR from "swr";
 
 import { LeadForm } from "@/components/forms/lead-form";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
-  commitments,
-  courseSeed,
+  anonymousCases,
+  audienceSituations,
+  contactConfig,
+  educationReasons,
   faqSeed,
   heroImage,
-  painPoints,
-  programSeed,
-  recognitionSteps,
-  services,
-  testimonialSeed,
-  timeline,
-  trustStats,
-  contactConfig,
+  heroTrustSignals,
+  processSteps,
+  programTracks,
+  serviceGroups,
 } from "@/lib/content";
 import { trackEvent } from "@/lib/tracking";
-import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -63,29 +59,27 @@ const staggerGrid = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.07,
     },
   },
 };
 
 const cardReveal = {
-  hidden: { opacity: 0, y: 20, scale: 0.98 },
-  visible: { opacity: 1, y: 0, scale: 1 },
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0 },
 };
 
 export function HomeLandingPage() {
   return (
-    <main className="overflow-x-hidden bg-white text-neutral-950">
+    <main className="overflow-x-hidden bg-[#fbfaf7] text-[#162033]">
       <HeroSection />
-      <PainPointSection />
-      <SolutionSection />
-      <TimelineSection />
+      <AudienceSection />
+      <ServicesSection />
+      <ProcessSection />
       <ProgramsSection />
       <JobOrdersSection />
-      <TrainingSection />
-      <RecognitionSection />
-      <CommitmentSection />
-      <TestimonialsSection />
+      <CasesSection />
+      <EducationSection />
       <FaqSection />
       <ContactSection />
     </main>
@@ -94,174 +88,118 @@ export function HomeLandingPage() {
 
 function HeroSection() {
   const reduceMotion = useReducedMotion();
+  const phoneHref = contactConfig.hotline.replaceAll(" ", "");
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#0B0B0B]">
+    <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[#f7f4ee]">
       <motion.div
-        className="absolute inset-0"
-        animate={reduceMotion ? undefined : { scale: [1.04, 1.09, 1.04] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-y-0 right-0 hidden w-[48%] lg:block"
+        animate={reduceMotion ? undefined : { scale: [1.01, 1.035, 1.01] }}
+        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
       >
         <Image
           src={heroImage}
           alt="Thành phố Đức và kiến trúc châu Âu"
           fill
           priority
-          sizes="100vw"
-          className="object-cover opacity-55"
+          sizes="48vw"
+          className="object-cover opacity-75"
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f7f4ee] via-[#f7f4ee]/55 to-transparent" />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30" />
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
-      <div className="relative mx-auto grid min-h-[calc(100svh-7rem)] max-w-7xl content-center gap-10 px-4 py-14 pb-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+
+      <div className="relative mx-auto grid min-h-[calc(100svh-7rem)] max-w-7xl content-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: "easeOut" }}
-          className="max-w-3xl text-white"
+          className="max-w-4xl"
         >
-          <div className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/10 px-3 py-2 text-sm font-semibold text-[#FFCE00] backdrop-blur">
-            <Sparkles className="h-4 w-4" />
-            Du học nghề Đức 2026 · Tư vấn lộ trình miễn phí
-          </div>
-          <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-normal sm:text-5xl lg:text-6xl">
-            Lộ trình sang Đức rõ ràng từ hồ sơ đầu tiên
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-8 text-neutral-100 sm:text-lg">
-            CVB Edu tư vấn du học nghề Đức, học tiếng Đức, visa và công nhận bằng CHLB Đức theo năng lực thực tế của từng học viên.
+          <p className="text-sm font-semibold uppercase tracking-normal text-red-700">
+            Tư vấn du học nghề Đức, học tiếng Đức, visa và công nhận bằng
           </p>
+          <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-normal text-[#111827] sm:text-5xl lg:text-[60px]">
+            Du học nghề Đức & công nhận bằng: bắt đầu bằng việc kiểm tra hồ sơ thật của bạn
+          </h1>
+          <p className="mt-6 max-w-3xl text-base leading-8 text-slate-700 sm:text-lg">
+            CVB Edu tư vấn lộ trình học tiếng, chọn ngành, chuẩn bị hồ sơ, visa và công nhận bằng tại Đức dựa trên độ tuổi, bằng cấp, trình độ tiếng và mục tiêu nghề nghiệp của từng học viên.
+          </p>
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" onClick={() => trackEvent("click_cta", { position: "hero" })}>
               <a href="#lien-he">
-                Kiểm tra lộ trình miễn phí
+                Kiểm tra hồ sơ ban đầu miễn phí
                 <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
-            <Button asChild size="lg" variant="secondary">
-              <a href="#chuong-trinh">Xem chương trình phù hợp</a>
+            <Button asChild size="lg" variant="outline">
+              <a href="#quy-trinh">Xem quy trình tư vấn</a>
             </Button>
           </div>
+
           <motion.div
             className="mt-8 grid gap-3 sm:grid-cols-2"
             variants={staggerGrid}
             initial="hidden"
             animate="visible"
           >
-            {trustStats.map((stat) => (
+            {heroTrustSignals.map((signal) => (
               <motion.div
-                key={stat.label}
+                key={signal}
                 variants={cardReveal}
-                transition={{ duration: 0.45, ease: "easeOut" }}
-                className="flex items-start gap-3 rounded-lg border border-white/15 bg-white/10 p-4 text-white backdrop-blur"
+                transition={{ duration: 0.42, ease: "easeOut" }}
+                className="flex gap-3 rounded-md border border-slate-200 bg-white/80 p-4"
               >
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#FFCE00]" />
-                <p className="text-sm font-semibold leading-6 text-neutral-100">{stat.label}</p>
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-red-700" />
+                <p className="text-sm font-medium leading-6 text-slate-700">{signal}</p>
               </motion.div>
             ))}
           </motion.div>
+
+          <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-600">
+            <a className="inline-flex items-center gap-2 font-semibold text-[#111827]" href={`tel:${phoneHref}`}>
+              <Phone className="h-4 w-4 text-red-700" />
+              Hotline: 0774 300 969
+            </a>
+            <span>{contactConfig.address}</span>
+          </div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.08, ease: "easeOut" }}
-          className="flex items-center justify-center self-center"
+          className="self-center"
         >
-          <motion.div
-            animate={reduceMotion ? undefined : { y: [0, -10, 0], rotate: [0, 0.4, 0] }}
-            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-          >
+          <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
             <Image
               src={contactConfig.consultantAvatar}
               alt="Chuyên viên tư vấn CVB Edu"
               width={620}
               height={620}
-              className="w-full max-w-[440px] rounded-lg bg-white object-contain p-3 shadow-2xl shadow-black/30 ring-1 ring-white/30 sm:max-w-[520px]"
+              className="w-full rounded-md bg-white object-contain"
               priority
             />
-          </motion.div>
+            <div className="mt-4 border-t border-slate-200 pt-4">
+              <p className="text-sm font-black text-[#111827]">Tư vấn ban đầu không yêu cầu nộp giấy tờ.</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Tư vấn viên sẽ hỏi thông tin học tập, bằng cấp, tiếng Đức và mục tiêu trước khi đề xuất bước tiếp theo.
+              </p>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
   );
 }
 
-function PainPointSection() {
-  return (
-    <Section id="van-de" eyebrow="Điểm bắt đầu" title="Bạn đang băn khoăn điều gì?">
-      <motion.div
-        className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-        variants={staggerGrid}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-      >
-        {painPoints.map((item) => (
-          <motion.div key={item.title} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
-            <Card className="h-full transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
-              <CardContent className="p-6">
-                <span className="grid h-12 w-12 place-items-center rounded-md bg-red-50 text-red-700">
-                  <item.icon className="h-6 w-6" />
-                </span>
-                <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-neutral-600">{item.text}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
-    </Section>
-  );
-}
-
-function SolutionSection() {
+function AudienceSection() {
   return (
     <Section
-      id="giai-phap"
-      eyebrow="Giải pháp"
-      title="Xây dựng lộ trình sang Đức rõ ràng và thực tế"
-      className="bg-neutral-50"
+      id="truong-hop"
+      title="Bạn đang ở trường hợp nào?"
+      description="Mỗi hồ sơ có điểm xuất phát khác nhau. Trước khi chọn ngành hoặc đóng phí học, nên kiểm tra tình trạng thật để biết việc nào cần làm trước."
     >
-      <motion.div
-        className="grid gap-5 lg:grid-cols-2"
-        variants={staggerGrid}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-      >
-        {services.map((service) => (
-          <motion.div key={service.title} variants={cardReveal} transition={{ duration: 0.5, ease: "easeOut" }}>
-            <Card className="h-full border-t-4 border-t-red-600 transition hover:-translate-y-1 hover:shadow-lg">
-              <CardContent className="p-6">
-                <span className="grid h-12 w-12 place-items-center rounded-md bg-[#FFCE00]/25 text-red-700">
-                  <service.icon className="h-7 w-7" />
-                </span>
-                <h3 className="mt-4 text-2xl font-black">{service.title}</h3>
-                <ul className="mt-5 grid gap-3">
-                  {service.items.map((item) => (
-                    <li key={item} className="flex gap-3 text-sm text-neutral-700">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <Button asChild className="mt-6" variant="dark">
-                  <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: `service_${service.title}` })}>
-                    Nhận lộ trình phù hợp
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
-    </Section>
-  );
-}
-
-function TimelineSection() {
-  return (
-    <Section id="lo-trinh" eyebrow="Quy trình" title="Lộ trình từ Việt Nam đến Đức">
       <motion.div
         className="grid gap-4 lg:grid-cols-5"
         variants={staggerGrid}
@@ -269,19 +207,100 @@ function TimelineSection() {
         whileInView="visible"
         viewport={viewport}
       >
-        {timeline.map((step, index) => (
-          <motion.div
-            key={step.title}
+        {audienceSituations.map((item, index) => (
+          <motion.article
+            key={item.title}
+            variants={cardReveal}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+            className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:col-span-1"
+          >
+            <span className="text-xs font-black text-red-700">0{index + 1}</span>
+            <h3 className="mt-3 text-lg font-black leading-6 text-[#111827]">{item.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{item.situation}</p>
+            <div className="mt-5 space-y-3 border-t border-slate-200 pt-4 text-sm leading-6">
+              <p><strong>CVB Edu kiểm tra:</strong> {item.checks}</p>
+              <p><strong>Bạn nhận được:</strong> {item.result}</p>
+            </div>
+          </motion.article>
+        ))}
+      </motion.div>
+    </Section>
+  );
+}
+
+function ServicesSection() {
+  return (
+    <Section
+      id="ho-tro"
+      title="CVB Edu hỗ trợ những gì?"
+      description="Nội dung tư vấn tập trung vào việc ra quyết định đúng thứ tự: học tiếng, chọn ngành, chuẩn bị giấy tờ, visa hoặc công nhận bằng."
+      className="bg-white"
+    >
+      <motion.div
+        className="grid gap-5 md:grid-cols-2"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
+        {serviceGroups.map((service) => (
+          <motion.article
+            key={service.title}
             variants={cardReveal}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="relative rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg"
+            className="rounded-lg border border-slate-200 bg-[#fbfaf7] p-6"
           >
-            <div className="mb-4 grid h-10 w-10 place-items-center rounded-md bg-[#0B0B0B] text-sm font-black text-white">
+            <div className="flex items-start gap-4">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-red-50 text-red-700">
+                <ClipboardCheck className="h-5 w-5" />
+              </span>
+              <div>
+                <h3 className="text-xl font-black text-[#111827]">{service.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{service.summary}</p>
+              </div>
+            </div>
+            <ul className="mt-5 grid gap-3">
+              {service.items.map((item) => (
+                <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-red-700" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </motion.article>
+        ))}
+      </motion.div>
+    </Section>
+  );
+}
+
+function ProcessSection() {
+  return (
+    <Section
+      id="quy-trinh"
+      title="Quy trình làm việc"
+      description="Quy trình được thiết kế để học viên và phụ huynh biết rõ mốc nào đang xử lý, ai phụ trách và bước tiếp theo là gì."
+    >
+      <motion.div
+        className="relative grid gap-4 lg:grid-cols-5"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
+        {processSteps.map((step, index) => (
+          <motion.article
+            key={step.title}
+            variants={cardReveal}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+            className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
+          >
+            <div className="grid h-10 w-10 place-items-center rounded-md bg-[#162033] text-sm font-black text-white">
               {index + 1}
             </div>
-            <h3 className="text-base font-black leading-6 text-neutral-900">{step.title}</h3>
-            <p className="mt-2 text-sm leading-6 text-neutral-600">{step.text}</p>
-          </motion.div>
+            <h3 className="mt-4 text-base font-black leading-6 text-[#111827]">{step.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{step.text}</p>
+          </motion.article>
         ))}
       </motion.div>
       <motion.div
@@ -291,10 +310,9 @@ function TimelineSection() {
         viewport={viewport}
         transition={{ duration: 0.45, ease: "easeOut" }}
       >
-        <Button asChild>
-          <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: "timeline" })}>
-            Bắt đầu kiểm tra hồ sơ
-            <ArrowRight className="h-4 w-4" />
+        <Button asChild variant="outline">
+          <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: "process" })}>
+            Gửi thông tin để kiểm tra bước đầu
           </a>
         </Button>
       </motion.div>
@@ -306,45 +324,38 @@ function ProgramsSection() {
   return (
     <Section
       id="chuong-trinh"
-      eyebrow="Chương trình"
-      title="Các chương trình phù hợp với bạn"
-      className="bg-neutral-50"
+      title="Các chương trình phù hợp"
+      description="Danh sách dưới đây giúp bạn định hướng trước. Khi tư vấn, CVB Edu sẽ kiểm tra lại hồ sơ thật trước khi khuyến nghị hướng đi."
+      className="bg-white"
     >
       <motion.div
-        className="grid gap-5 md:grid-cols-2"
+        className="overflow-hidden rounded-lg border border-slate-200 bg-white"
         variants={staggerGrid}
         initial="hidden"
         whileInView="visible"
         viewport={viewport}
       >
-        {programSeed.map((program) => (
-          <motion.div key={program.slug} variants={cardReveal} transition={{ duration: 0.5, ease: "easeOut" }}>
-            <Card className="h-full transition hover:-translate-y-1 hover:shadow-lg">
-              <CardContent className="flex h-full flex-col p-6">
-                <span className="grid h-12 w-12 place-items-center rounded-md bg-red-50 text-red-700">
-                  <GraduationCap className="h-7 w-7" />
-                </span>
-                <h3 className="mt-4 text-xl font-black">{program.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{program.description}</p>
-                <ul className="mt-4 grid gap-2">
-                  {program.benefits.map((benefit) => (
-                    <li key={benefit} className="flex gap-2 text-sm text-neutral-700">
-                      <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-                <Button asChild className="mt-6 w-fit" variant="outline">
-                  <a
-                    href="#lien-he"
-                    onClick={() => trackEvent("program_selected", { program: program.slug })}
-                  >
-                    Nhận tư vấn
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
+        {programTracks.map((program, index) => (
+          <motion.article
+            key={program.title}
+            variants={cardReveal}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="grid gap-4 border-b border-slate-200 p-5 last:border-b-0 md:grid-cols-[0.75fr_1.25fr]"
+          >
+            <div>
+              <p className="text-xs font-black text-red-700">Chương trình {index + 1}</p>
+              <h3 className="mt-2 text-xl font-black text-[#111827]">{program.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{program.fit}</p>
+            </div>
+            <ul className="grid gap-3">
+              {program.details.map((detail) => (
+                <li key={detail} className="flex gap-3 text-sm leading-6 text-slate-700">
+                  <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-red-700" />
+                  {detail}
+                </li>
+              ))}
+            </ul>
+          </motion.article>
         ))}
       </motion.div>
     </Section>
@@ -376,14 +387,18 @@ function JobOrdersSection() {
   const { data, error, isLoading } = useSWR(
     `/api/job-orders?${queryParams.toString()}`,
     fetcher,
-    { revalidateOnFocus: false, revalidateOnReconnect: false }
+    { revalidateOnFocus: false, revalidateOnReconnect: false },
   );
 
   const jobOrders: JobOrderCard[] = data?.data?.content ?? [];
   const totalPages = data?.data?.totalPages ?? 0;
 
   return (
-    <Section id="nganh-nghe" eyebrow="Tuyển dụng" title="Vị trí du học nghề đang mở">
+    <Section
+      id="nganh-nghe"
+      title="Vị trí du học nghề đang mở"
+      description="Nếu có vị trí đang mở, bạn có thể xem để hình dung nhóm ngành và địa điểm. Thông tin chi tiết vẫn cần được đối chiếu với hồ sơ cá nhân."
+    >
       <motion.div
         className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
         initial={{ opacity: 0, y: 16 }}
@@ -391,24 +406,24 @@ function JobOrdersSection() {
         viewport={viewport}
         transition={{ duration: 0.45, ease: "easeOut" }}
       >
-        <p className="max-w-xl text-sm leading-6 text-neutral-600">
-          Khám phá các vị trí du học nghề đang mở tại Đức. Sử dụng thanh tìm kiếm để nhanh chóng tìm thấy chuyên ngành hoặc thành phố bạn quan tâm.
+        <p className="max-w-xl text-sm leading-6 text-slate-600">
+          Tìm nhanh theo ngành hoặc thành phố để xem các vị trí hiện có trong hệ thống.
         </p>
         <div className="relative w-full sm:max-w-sm">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <Input
             type="search"
             placeholder="Tìm theo tên ngành, thành phố..."
-            className="pl-9 bg-white"
+            className="bg-white pl-9"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(event) => setSearch(event.target.value)}
           />
         </div>
       </motion.div>
 
       {isLoading ? (
         <motion.div
-          className="flex justify-center py-10 text-sm font-medium text-neutral-500"
+          className="flex justify-center py-10 text-sm font-medium text-slate-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
@@ -417,7 +432,7 @@ function JobOrdersSection() {
         </motion.div>
       ) : error ? (
         <motion.div
-          className="py-10 text-center text-sm font-medium text-red-500"
+          className="py-10 text-center text-sm font-medium text-red-600"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
@@ -426,7 +441,7 @@ function JobOrdersSection() {
         </motion.div>
       ) : jobOrders.length === 0 ? (
         <motion.div
-          className="py-10 text-center text-sm font-medium text-neutral-500"
+          className="py-10 text-center text-sm font-medium text-slate-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
@@ -436,32 +451,31 @@ function JobOrdersSection() {
       ) : (
         <>
           <motion.div
-            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
             variants={staggerGrid}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
           >
-            {jobOrders.map((job: JobOrderCard) => (
-              <motion.div key={job.id} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
-              <Card className="h-full transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
-                <CardContent className="flex h-full flex-col p-4">
-                  <span className="grid h-11 w-11 place-items-center rounded-md bg-red-50 text-red-700">
-                    <BookOpen className="h-6 w-6" />
-                  </span>
-                  <h3 className="mt-3 text-base font-black">{job.title}</h3>
-                  <div className="mb-2 text-xs font-semibold text-neutral-500">{job.titleGerman}</div>
-                  <p className="mt-2 line-clamp-3 text-sm leading-5 text-neutral-600">{job.description}</p>
-                  <Button asChild className="mt-auto" size="sm" variant="outline">
-                    <a
-                      href={`/job-orders/${job.id}`}
-                      onClick={() => trackEvent("job_order_details_viewed", { jobOrderId: job.id, jobTitle: job.title })}
-                    >
-                      Xem chi tiết
-                    </a>
-                  </Button>
-                </CardContent>
-              </Card>
+            {jobOrders.map((job) => (
+              <motion.div key={job.id} variants={cardReveal} transition={{ duration: 0.4, ease: "easeOut" }}>
+                <Card className="h-full border-slate-200 shadow-none transition hover:border-red-200">
+                  <CardContent className="flex h-full flex-col p-5">
+                    <h3 className="text-base font-black leading-6 text-[#111827]">{job.title}</h3>
+                    {job.titleGerman ? (
+                      <p className="mt-1 text-xs font-semibold text-slate-500">{job.titleGerman}</p>
+                    ) : null}
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{job.description}</p>
+                    <Button asChild className="mt-5 w-fit" size="sm" variant="outline">
+                      <a
+                        href={`/job-orders/${job.id}`}
+                        onClick={() => trackEvent("job_order_details_viewed", { jobOrderId: job.id, jobTitle: job.title })}
+                      >
+                        Xem chi tiết
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
               </motion.div>
             ))}
           </motion.div>
@@ -477,18 +491,18 @@ function JobOrdersSection() {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                onClick={() => setPage((currentPage) => Math.max(0, currentPage - 1))}
                 disabled={page === 0}
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <div className="text-sm font-semibold text-neutral-600">
+              <div className="text-sm font-semibold text-slate-600">
                 Trang {page + 1} / {totalPages}
               </div>
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                onClick={() => setPage((currentPage) => Math.min(totalPages - 1, currentPage + 1))}
                 disabled={page >= totalPages - 1}
               >
                 <ChevronRight className="h-4 w-4" />
@@ -501,9 +515,14 @@ function JobOrdersSection() {
   );
 }
 
-function TrainingSection() {
+function CasesSection() {
   return (
-    <Section id="dao-tao" eyebrow="Đào tạo" title="Lộ trình học tiếng Đức gắn với mục tiêu hồ sơ" className="bg-neutral-50">
+    <Section
+      id="truong-hop-thuong-gap"
+      title="Một số trường hợp thường gặp"
+      description="Chưa có testimonial thật được xác minh, nên phần này dùng case ẩn danh để bạn hình dung cách tư vấn viên xử lý từng tình huống."
+      className="bg-white"
+    >
       <motion.div
         className="grid gap-5 md:grid-cols-2"
         variants={staggerGrid}
@@ -511,45 +530,46 @@ function TrainingSection() {
         whileInView="visible"
         viewport={viewport}
       >
-        {courseSeed.map((course) => (
-          <motion.div key={course.slug} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
-            <Card className="h-full">
-              <CardContent>
-                <BookOpen className="h-8 w-8 text-red-600" />
-                <h3 className="mt-4 text-xl font-black">{course.title}</h3>
-                <p className="mt-2 text-sm font-semibold text-neutral-500">{course.duration}</p>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{course.description}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
+        {anonymousCases.map((item) => (
+          <motion.article
+            key={item.profile}
+            variants={cardReveal}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+            className="rounded-lg border border-slate-200 bg-[#fbfaf7] p-6"
+          >
+            <h3 className="text-lg font-black text-[#111827]">{item.profile}</h3>
+            <div className="mt-4 grid gap-3 text-sm leading-6 text-slate-700">
+              <p><strong>Tình trạng ban đầu:</strong> {item.initialState}</p>
+              <p><strong>Vấn đề chính:</strong> {item.issue}</p>
+              <p><strong>Hướng xử lý được tư vấn:</strong> {item.direction}</p>
+            </div>
+          </motion.article>
         ))}
       </motion.div>
     </Section>
   );
 }
 
-function RecognitionSection() {
+function EducationSection() {
   return (
-    <section id="cong-nhan-bang" className="bg-[#0B0B0B] text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
+    <section id="kiem-tra-ho-so" className="bg-[#162033] text-white">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
         <motion.div
-          initial={{ opacity: 0, x: -24 }}
+          initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={viewport}
-          transition={{ duration: 0.55, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <div className="inline-flex rounded-md bg-[#FFCE00] px-3 py-2 text-sm font-black text-black">
-            Công nhận bằng CHLB Đức
-          </div>
-          <h2 className="text-3xl font-black leading-tight sm:text-4xl">
-            Đã có bằng tại Việt Nam? Hãy kiểm tra khả năng công nhận tại Đức
+          <p className="text-sm font-semibold uppercase tracking-normal text-[#f4c542]">Trước khi đăng ký</p>
+          <h2 className="mt-4 text-3xl font-black leading-tight tracking-normal sm:text-4xl">
+            Vì sao nên kiểm tra hồ sơ trước?
           </h2>
-          <p className="mt-5 text-sm leading-7 text-neutral-300">
-            Không phải ai cũng cần bắt đầu lại từ đầu. Nếu bạn đã có bằng cấp hoặc kinh nghiệm làm việc tại Việt Nam, chúng tôi sẽ giúp bạn kiểm tra khả năng công nhận bằng, chuyển đổi văn bằng và xây dựng lộ trình phù hợp để học tập hoặc làm việc tại Đức.
+          <p className="mt-5 text-sm leading-7 text-slate-200">
+            Tư vấn ban đầu giúp bạn tránh chọn sai ngành, chuẩn bị giấy tờ sai thứ tự hoặc đặt kỳ vọng không phù hợp với điều kiện hồ sơ.
           </p>
-          <Button asChild className="mt-6" variant="secondary">
-            <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: "recognition" })}>
-              Kiểm tra khả năng công nhận bằng
+          <Button asChild className="mt-7" variant="secondary">
+            <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: "education" })}>
+              Kiểm tra tình trạng hồ sơ
             </a>
           </Button>
         </motion.div>
@@ -560,18 +580,16 @@ function RecognitionSection() {
           whileInView="visible"
           viewport={viewport}
         >
-          {recognitionSteps.map((step, index) => (
-            <motion.div
-              key={step}
+          {educationReasons.map((reason) => (
+            <motion.article
+              key={reason.title}
               variants={cardReveal}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-              className="flex items-center gap-4 rounded-lg border border-white/10 bg-white/5 p-4"
+              transition={{ duration: 0.42, ease: "easeOut" }}
+              className="rounded-lg border border-white/10 bg-white/5 p-5"
             >
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white text-sm font-black text-black">
-                {index + 1}
-              </span>
-              <p className="text-sm font-semibold leading-6 text-neutral-100">{step}</p>
-            </motion.div>
+              <h3 className="font-black text-white">{reason.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-200">{reason.text}</p>
+            </motion.article>
           ))}
         </motion.div>
       </div>
@@ -579,79 +597,13 @@ function RecognitionSection() {
   );
 }
 
-function CommitmentSection() {
-  return (
-    <Section id="cam-ket" eyebrow="Cam kết" title="Vì sao nên chọn chúng tôi?">
-      <motion.div
-        className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-        variants={staggerGrid}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-      >
-        {commitments.map((commitment) => (
-          <motion.div
-            key={commitment.title}
-            variants={cardReveal}
-            transition={{ duration: 0.45, ease: "easeOut" }}
-            className="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg"
-          >
-            <span className="grid h-11 w-11 place-items-center rounded-md bg-red-50 text-red-700">
-              <commitment.icon className="h-6 w-6" />
-            </span>
-            <h3 className="mt-4 text-lg font-black">{commitment.title}</h3>
-            <p className="mt-2 text-sm leading-6 text-neutral-600">{commitment.text}</p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </Section>
-  );
-}
-
-function TestimonialsSection() {
-  return (
-    <Section
-      id="thanh-cong"
-      eyebrow="Feedback"
-      title="Học viên đã tin tưởng lựa chọn chúng tôi"
-      className="bg-neutral-50"
-    >
-      <motion.div
-        className="grid gap-5 md:grid-cols-3"
-        variants={staggerGrid}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-      >
-        {testimonialSeed.map((item) => (
-          <motion.div key={item.studentName} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
-            <Card className="h-full transition hover:-translate-y-1 hover:shadow-lg">
-              <CardContent className="p-6">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="grid h-12 w-12 place-items-center rounded-full bg-[#0B0B0B] text-lg font-black text-[#FFCE00]">
-                    {item.studentName.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-black">{item.studentName}</p>
-                    <p className="text-sm text-neutral-500">{item.program}</p>
-                  </div>
-                </div>
-                <p className="text-sm leading-7 text-neutral-700">“{item.content}”</p>
-                <div className="mt-5 border-t border-neutral-200 pt-4">
-                  <Badge>{item.status}</Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
-    </Section>
-  );
-}
-
 function FaqSection() {
   return (
-    <Section id="faq" eyebrow="FAQ" title="Câu hỏi thường gặp">
+    <Section
+      id="faq"
+      title="Câu hỏi thường gặp"
+      description="Các câu trả lời dưới đây chỉ mang tính định hướng ban đầu. Điều kiện cụ thể vẫn cần kiểm tra theo từng hồ sơ."
+    >
       <motion.div
         className="mx-auto grid max-w-4xl gap-3"
         variants={staggerGrid}
@@ -663,11 +615,11 @@ function FaqSection() {
           <motion.details
             key={faq.question}
             variants={cardReveal}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="rounded-lg border border-neutral-200 bg-white p-4 open:border-red-200 open:bg-red-50/40"
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="rounded-lg border border-slate-200 bg-white p-4 open:border-red-200 open:bg-red-50/30"
           >
-            <summary className="cursor-pointer text-sm font-black text-neutral-900">{faq.question}</summary>
-            <p className="mt-3 text-sm leading-6 text-neutral-600">{faq.answer}</p>
+            <summary className="cursor-pointer text-sm font-black text-[#111827]">{faq.question}</summary>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{faq.answer}</p>
           </motion.details>
         ))}
       </motion.div>
@@ -677,49 +629,54 @@ function FaqSection() {
 
 function ContactSection() {
   return (
-    <section id="lien-he" className="bg-neutral-50">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+    <section id="lien-he" className="bg-white">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
         <motion.div
-          initial={{ opacity: 0, x: -24 }}
+          initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={viewport}
-          transition={{ duration: 0.55, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <h2 className="text-3xl font-black leading-tight sm:text-4xl">
-            Đăng ký kiểm tra lộ trình miễn phí
+          <p className="text-sm font-semibold uppercase tracking-normal text-red-700">Đăng ký tư vấn</p>
+          <h2 className="mt-4 text-3xl font-black leading-tight tracking-normal text-[#111827] sm:text-4xl">
+            Nhận tư vấn lộ trình sơ bộ
           </h2>
-          <p className="mt-4 text-sm leading-7 text-neutral-600">
-            Để lại thông tin ngắn gọn. Tư vấn viên sẽ liên hệ, đánh giá hồ sơ ban đầu và gợi ý lộ trình phù hợp với năng lực thực tế của bạn.
+          <p className="mt-4 text-sm leading-7 text-slate-600">
+            Sau khi gửi thông tin, tư vấn viên sẽ liên hệ để hỏi nhanh tình trạng học tập/bằng cấp, trình độ tiếng Đức và mục tiêu của bạn. Bạn chưa cần nộp giấy tờ ở bước đầu.
           </p>
           <div className="mt-6 grid gap-3">
-            {["Form ngắn, không yêu cầu hồ sơ ngay", "Tư vấn minh bạch chi phí và tiến độ", "Phù hợp học viên và phụ huynh cùng theo dõi"].map((item) => (
-              <p key={item} className="flex gap-3 text-sm font-semibold text-neutral-700">
-                <CheckCircle2 className="h-5 w-5 text-red-600" />
+            {[
+              "Thông tin chỉ dùng để tư vấn hồ sơ và không chia sẻ cho bên thứ ba.",
+              "Có thể để phụ huynh cùng trao đổi về chi phí và tiến độ.",
+              "Kết quả tư vấn phụ thuộc vào điều kiện hồ sơ thực tế.",
+            ].map((item) => (
+              <p key={item} className="flex gap-3 text-sm font-medium leading-6 text-slate-700">
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-red-700" />
                 {item}
               </p>
             ))}
           </div>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Button asChild variant="dark">
-              <a href="tel:0774300969" onClick={() => trackEvent("click_hotline", { position: "contact" })}>
-                <Plane className="h-4 w-4" />
-                Gọi tư vấn nhanh
+            <Button asChild variant="outline">
+              <a href={`tel:${contactConfig.hotline.replaceAll(" ", "")}`} onClick={() => trackEvent("click_hotline", { position: "contact" })}>
+                <Phone className="h-4 w-4" />
+                Gọi hotline
               </a>
             </Button>
             <Button asChild variant="outline">
-              <a href="#cong-nhan-bang">
-                Kiểm tra công nhận bằng
+              <a href={contactConfig.zalo} onClick={() => trackEvent("click_zalo", { position: "contact" })}>
+                Nhắn Zalo
               </a>
             </Button>
           </div>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, x: 24 }}
+          initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={viewport}
-          transition={{ duration: 0.55, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <Card>
+          <Card className="border-slate-200 shadow-sm">
             <CardContent className="p-5 sm:p-6">
               <LeadForm />
             </CardContent>
@@ -732,19 +689,17 @@ function ContactSection() {
 
 function Section({
   id,
-  eyebrow: _eyebrow,
   title,
+  description,
   className = "",
   children,
 }: {
   id: string;
-  eyebrow: string;
   title: string;
+  description?: string;
   className?: string;
   children: React.ReactNode;
 }) {
-  void _eyebrow;
-
   return (
     <motion.section
       id={id}
@@ -759,13 +714,15 @@ function Section({
           variants={fadeUp}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <h2 className="text-3xl font-black leading-tight tracking-normal sm:text-4xl">
+          <h2 className="text-3xl font-black leading-tight tracking-normal text-[#111827] sm:text-4xl">
             {title}
           </h2>
+          {description ? (
+            <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">{description}</p>
+          ) : null}
         </motion.div>
         {children}
       </div>
     </motion.section>
   );
 }
-

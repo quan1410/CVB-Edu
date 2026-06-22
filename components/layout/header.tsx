@@ -21,7 +21,7 @@ export function Header() {
           key={item.href}
           href={item.href}
           onClick={() => setOpen(false)}
-          className="rounded-md px-2 py-2 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-100 hover:text-red-700"
+          className="rounded-md px-2 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-red-700"
         >
           {item.label}
         </a>
@@ -30,7 +30,7 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex min-h-[112px] max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center" aria-label="CVB EDU trang chủ">
           <Image

@@ -85,10 +85,10 @@ export function LeadForm() {
     >
       <div>
         <h3 className="text-2xl font-black leading-tight">
-          Đăng ký kiểm tra lộ trình miễn phí
+          Nhận tư vấn lộ trình sơ bộ
         </h3>
         <p className="mt-2 text-sm leading-6 text-neutral-600">
-          Điền thông tin cơ bản để tư vấn viên liên hệ, đánh giá nhanh điều kiện và đề xuất bước tiếp theo.
+          Sau khi gửi thông tin, tư vấn viên sẽ hỏi nhanh tình trạng học tập/bằng cấp, trình độ tiếng Đức và mục tiêu của bạn. Bạn chưa cần nộp giấy tờ ở bước đầu.
         </p>
       </div>
 
@@ -137,7 +137,7 @@ export function LeadForm() {
 
       <Field label="Ghi chú thêm" error={errors.message?.message}>
         <Textarea
-          placeholder="Bạn muốn tư vấn ngành nghề, visa hay công nhận bằng?"
+          placeholder="Ví dụ: mới tốt nghiệp THPT, đang học A2, đã có bằng điều dưỡng..."
           {...register("message")}
         />
       </Field>
@@ -149,7 +149,7 @@ export function LeadForm() {
           {...register("consent")}
         />
         <span>
-          Tôi đồng ý để CVB EDU liên hệ tư vấn lộ trình và xử lý thông tin theo chính sách bảo mật.
+          Tôi đồng ý để CVB EDU liên hệ tư vấn hồ sơ và xử lý thông tin theo chính sách bảo mật.
           {errors.consent?.message ? (
             <span className="mt-1 block text-xs font-semibold text-red-600">
               {errors.consent.message}
@@ -171,10 +171,10 @@ export function LeadForm() {
 
       <Button type="submit" size="lg" disabled={isSubmitting} className="w-full">
         <Send className="h-4 w-4" />
-        {isSubmitting ? "Đang gửi..." : "Gửi thông tin tư vấn"}
+        {isSubmitting ? "Đang gửi..." : "Nhận tư vấn lộ trình sơ bộ"}
       </Button>
       <p className="text-xs leading-5 text-neutral-500">
-        Thông tin của bạn được bảo mật và chỉ sử dụng để tư vấn lộ trình phù hợp.
+        Thông tin chỉ dùng để tư vấn hồ sơ và không chia sẻ cho bên thứ ba.
       </p>
     </form>
   );

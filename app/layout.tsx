@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Be_Vietnam_Pro, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const geistSans = Geist({
+const beVietnamPro = Be_Vietnam_Pro({
   variable: "--font-geist-sans",
+  weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
 
@@ -15,9 +16,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://cvbedu.vn"),
-  title: "Du Học Nghề Đức & Công Nhận Bằng CHLB Đức | Tư Vấn Lộ Trình A-Z",
+  title: "Du Học Nghề Đức & Công Nhận Bằng CHLB Đức | Kiểm Tra Hồ Sơ Ban Đầu",
   description:
-    "Tư vấn du học nghề Đức, đào tạo tiếng Đức, hồ sơ visa và công nhận chuyển đổi bằng CHLB Đức. Lộ trình rõ ràng, minh bạch, đồng hành từ Việt Nam đến Đức.",
+    "Tư vấn du học nghề Đức, học tiếng Đức, hồ sơ visa và công nhận bằng tại Đức dựa trên độ tuổi, bằng cấp, trình độ tiếng và mục tiêu nghề nghiệp.",
   keywords: [
     "du học nghề Đức",
     "công nhận bằng Đức",
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Du Học Nghề Đức & Công Nhận Bằng CHLB Đức",
     description:
-      "Tư vấn lộ trình A-Z: học tiếng Đức, hồ sơ, visa, ngành nghề và công nhận bằng.",
+      "Kiểm tra hồ sơ ban đầu để định hướng học tiếng Đức, ngành nghề, giấy tờ, visa và công nhận bằng.",
     type: "website",
     locale: "vi_VN",
     url: "/",
@@ -56,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${beVietnamPro.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         {process.env.NEXT_PUBLIC_GTM_ID ? (

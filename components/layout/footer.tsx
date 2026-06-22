@@ -21,7 +21,7 @@ export function Footer() {
             />
           </div>
           <p className="mt-4 max-w-xl text-sm leading-6 text-neutral-300">
-            Tư vấn du học nghề Đức, công nhận bằng CHLB Đức, đào tạo tiếng Đức và hồ sơ visa theo lộ trình minh bạch, phù hợp năng lực thực tế.
+            Tư vấn du học nghề Đức, công nhận bằng CHLB Đức, học tiếng Đức và chuẩn bị hồ sơ visa dựa trên điều kiện học tập, bằng cấp và mục tiêu nghề nghiệp của từng người.
           </p>
           <p className="mt-3 max-w-xl text-sm italic leading-6 text-neutral-400">
             Chúng tôi là ủy quyền, không phải trang web chính thức của CVB EDU.

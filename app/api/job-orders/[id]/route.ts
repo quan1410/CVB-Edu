@@ -31,7 +31,7 @@ function parseBackendJson(text: string) {
       data = JSON.parse(data);
     }
     return data;
-  } catch (error) {
+  } catch {
     console.error("Lỗi parse JSON. Nội dung trả về:", text);
     return { success: false, message: "Backend trả về định dạng không hợp lệ", data: null };
   }
