@@ -13,7 +13,7 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 
 import { LeadForm } from "@/components/forms/lead-form";
@@ -52,6 +52,27 @@ type JobOrderCard = {
   filledSlots?: number;
 };
 
+const viewport = { once: true, amount: 0.18 };
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const staggerGrid = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardReveal = {
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
+  visible: { opacity: 1, y: 0, scale: 1 },
+};
+
 export function HomeLandingPage() {
   return (
     <main className="bg-white text-neutral-950">
@@ -72,23 +93,31 @@ export function HomeLandingPage() {
 }
 
 function HeroSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="relative isolate overflow-hidden bg-[#0B0B0B]">
-      <Image
-        src={heroImage}
-        alt="Thành phố Đức và kiến trúc châu Âu"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover opacity-55"
-      />
+      <motion.div
+        className="absolute inset-0"
+        animate={reduceMotion ? undefined : { scale: [1.04, 1.09, 1.04] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Image
+          src={heroImage}
+          alt="Thành phố Đức và kiến trúc châu Âu"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-55"
+        />
+      </motion.div>
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30" />
       <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
       <div className="relative mx-auto grid min-h-[calc(100svh-7rem)] max-w-7xl content-center gap-10 px-4 py-14 pb-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
           className="max-w-3xl text-white"
         >
           <div className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/10 px-3 py-2 text-sm font-semibold text-[#FFCE00] backdrop-blur">
@@ -112,30 +141,45 @@ function HeroSection() {
               <a href="#chuong-trinh">Xem chương trình phù hợp</a>
             </Button>
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <motion.div
+            className="mt-8 grid gap-3 sm:grid-cols-2"
+            variants={staggerGrid}
+            initial="hidden"
+            animate="visible"
+          >
             {trustStats.map((stat) => (
-              <div key={stat.label} className="flex items-start gap-3 rounded-lg border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
+              <motion.div
+                key={stat.label}
+                variants={cardReveal}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="flex items-start gap-3 rounded-lg border border-white/15 bg-white/10 p-4 text-white backdrop-blur"
+              >
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#FFCE00]" />
                 <p className="text-sm font-semibold leading-6 text-neutral-100">{stat.label}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08 }}
+          transition={{ duration: 0.6, delay: 0.08, ease: "easeOut" }}
           className="flex items-center justify-center self-center"
         >
-          <Image
-            src={contactConfig.consultantAvatar}
-            alt="Chuyên viên tư vấn CVB Edu"
-            width={620}
-            height={620}
-            className="w-full max-w-[440px] rounded-lg bg-white object-contain p-3 shadow-2xl shadow-black/30 ring-1 ring-white/30 sm:max-w-[520px]"
-            priority
-          />
+          <motion.div
+            animate={reduceMotion ? undefined : { y: [0, -10, 0], rotate: [0, 0.4, 0] }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src={contactConfig.consultantAvatar}
+              alt="Chuyên viên tư vấn CVB Edu"
+              width={620}
+              height={620}
+              className="w-full max-w-[440px] rounded-lg bg-white object-contain p-3 shadow-2xl shadow-black/30 ring-1 ring-white/30 sm:max-w-[520px]"
+              priority
+            />
+          </motion.div>
         </motion.div>
       </div>
     </section>
@@ -145,19 +189,27 @@ function HeroSection() {
 function PainPointSection() {
   return (
     <Section id="van-de" eyebrow="Điểm bắt đầu" title="Bạn đang băn khoăn điều gì?">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <motion.div
+        className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {painPoints.map((item) => (
-          <Card key={item.title} className="transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
-            <CardContent className="p-6">
-              <span className="grid h-12 w-12 place-items-center rounded-md bg-red-50 text-red-700">
-                <item.icon className="h-6 w-6" />
-              </span>
-              <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-neutral-600">{item.text}</p>
-            </CardContent>
-          </Card>
+          <motion.div key={item.title} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
+            <Card className="h-full transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
+              <CardContent className="p-6">
+                <span className="grid h-12 w-12 place-items-center rounded-md bg-red-50 text-red-700">
+                  <item.icon className="h-6 w-6" />
+                </span>
+                <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-neutral-600">{item.text}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -170,31 +222,39 @@ function SolutionSection() {
       title="Xây dựng lộ trình sang Đức rõ ràng và thực tế"
       className="bg-neutral-50"
     >
-      <div className="grid gap-5 lg:grid-cols-2">
+      <motion.div
+        className="grid gap-5 lg:grid-cols-2"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {services.map((service) => (
-          <Card key={service.title} className="border-t-4 border-t-red-600 transition hover:-translate-y-1 hover:shadow-lg">
-            <CardContent className="p-6">
-              <span className="grid h-12 w-12 place-items-center rounded-md bg-[#FFCE00]/25 text-red-700">
-                <service.icon className="h-7 w-7" />
-              </span>
-              <h3 className="mt-4 text-2xl font-black">{service.title}</h3>
-              <ul className="mt-5 grid gap-3">
-                {service.items.map((item) => (
-                  <li key={item} className="flex gap-3 text-sm text-neutral-700">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Button asChild className="mt-6" variant="dark">
-                <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: `service_${service.title}` })}>
-                  Nhận lộ trình phù hợp
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
+          <motion.div key={service.title} variants={cardReveal} transition={{ duration: 0.5, ease: "easeOut" }}>
+            <Card className="h-full border-t-4 border-t-red-600 transition hover:-translate-y-1 hover:shadow-lg">
+              <CardContent className="p-6">
+                <span className="grid h-12 w-12 place-items-center rounded-md bg-[#FFCE00]/25 text-red-700">
+                  <service.icon className="h-7 w-7" />
+                </span>
+                <h3 className="mt-4 text-2xl font-black">{service.title}</h3>
+                <ul className="mt-5 grid gap-3">
+                  {service.items.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm text-neutral-700">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild className="mt-6" variant="dark">
+                  <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: `service_${service.title}` })}>
+                    Nhận lộ trình phù hợp
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -202,25 +262,42 @@ function SolutionSection() {
 function TimelineSection() {
   return (
     <Section id="lo-trinh" eyebrow="Quy trình" title="Lộ trình từ Việt Nam đến Đức">
-      <div className="grid gap-4 lg:grid-cols-5">
+      <motion.div
+        className="grid gap-4 lg:grid-cols-5"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {timeline.map((step, index) => (
-          <div key={step.title} className="relative rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
+          <motion.div
+            key={step.title}
+            variants={cardReveal}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="relative rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg"
+          >
             <div className="mb-4 grid h-10 w-10 place-items-center rounded-md bg-[#0B0B0B] text-sm font-black text-white">
               {index + 1}
             </div>
             <h3 className="text-base font-black leading-6 text-neutral-900">{step.title}</h3>
             <p className="mt-2 text-sm leading-6 text-neutral-600">{step.text}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
-      <div className="mt-8 flex justify-center">
+      </motion.div>
+      <motion.div
+        className="mt-8 flex justify-center"
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+      >
         <Button asChild>
           <a href="#lien-he" onClick={() => trackEvent("click_cta", { position: "timeline" })}>
             Bắt đầu kiểm tra hồ sơ
             <ArrowRight className="h-4 w-4" />
           </a>
         </Button>
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -233,35 +310,43 @@ function ProgramsSection() {
       title="Các chương trình phù hợp với bạn"
       className="bg-neutral-50"
     >
-      <div className="grid gap-5 md:grid-cols-2">
+      <motion.div
+        className="grid gap-5 md:grid-cols-2"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {programSeed.map((program) => (
-          <Card key={program.slug} className="transition hover:-translate-y-1 hover:shadow-lg">
-            <CardContent className="flex h-full flex-col p-6">
-              <span className="grid h-12 w-12 place-items-center rounded-md bg-red-50 text-red-700">
-                <GraduationCap className="h-7 w-7" />
-              </span>
-              <h3 className="mt-4 text-xl font-black">{program.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-neutral-600">{program.description}</p>
-              <ul className="mt-4 grid gap-2">
-                {program.benefits.map((benefit) => (
-                  <li key={benefit} className="flex gap-2 text-sm text-neutral-700">
-                    <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
-              <Button asChild className="mt-6 w-fit" variant="outline">
-                <a
-                  href="#lien-he"
-                  onClick={() => trackEvent("program_selected", { program: program.slug })}
-                >
-                  Nhận tư vấn
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
+          <motion.div key={program.slug} variants={cardReveal} transition={{ duration: 0.5, ease: "easeOut" }}>
+            <Card className="h-full transition hover:-translate-y-1 hover:shadow-lg">
+              <CardContent className="flex h-full flex-col p-6">
+                <span className="grid h-12 w-12 place-items-center rounded-md bg-red-50 text-red-700">
+                  <GraduationCap className="h-7 w-7" />
+                </span>
+                <h3 className="mt-4 text-xl font-black">{program.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-neutral-600">{program.description}</p>
+                <ul className="mt-4 grid gap-2">
+                  {program.benefits.map((benefit) => (
+                    <li key={benefit} className="flex gap-2 text-sm text-neutral-700">
+                      <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild className="mt-6 w-fit" variant="outline">
+                  <a
+                    href="#lien-he"
+                    onClick={() => trackEvent("program_selected", { program: program.slug })}
+                  >
+                    Nhận tư vấn
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -299,7 +384,13 @@ function JobOrdersSection() {
 
   return (
     <Section id="nganh-nghe" eyebrow="Tuyển dụng" title="Vị trí du học nghề đang mở">
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <motion.div
+        className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+      >
         <p className="max-w-xl text-sm leading-6 text-neutral-600">
           Khám phá các vị trí du học nghề đang mở tại Đức. Sử dụng thanh tìm kiếm để nhanh chóng tìm thấy chuyên ngành hoặc thành phố bạn quan tâm.
         </p>
@@ -313,21 +404,47 @@ function JobOrdersSection() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-      </div>
+      </motion.div>
 
       {isLoading ? (
-        <div className="flex justify-center py-10 text-sm font-medium text-neutral-500">Đang tải danh sách vị trí...</div>
+        <motion.div
+          className="flex justify-center py-10 text-sm font-medium text-neutral-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          Đang tải danh sách vị trí...
+        </motion.div>
       ) : error ? (
-        <div className="py-10 text-center text-sm font-medium text-red-500">Không thể tải danh sách vị trí. Vui lòng thử lại sau.</div>
+        <motion.div
+          className="py-10 text-center text-sm font-medium text-red-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          Không thể tải danh sách vị trí. Vui lòng thử lại sau.
+        </motion.div>
       ) : jobOrders.length === 0 ? (
-        <div className="py-10 text-center text-sm font-medium text-neutral-500">
-          Không tìm thấy vị trí nào phù hợp với "{debouncedSearch}".
-        </div>
+        <motion.div
+          className="py-10 text-center text-sm font-medium text-neutral-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          Không tìm thấy vị trí nào phù hợp với &quot;{debouncedSearch}&quot;.
+        </motion.div>
       ) : (
         <>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <motion.div
+            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            variants={staggerGrid}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             {jobOrders.map((job: JobOrderCard) => (
-              <Card key={job.id} className="transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
+              <motion.div key={job.id} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
+              <Card className="h-full transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
                 <CardContent className="flex h-full flex-col p-4">
                   <span className="grid h-11 w-11 place-items-center rounded-md bg-red-50 text-red-700">
                     <BookOpen className="h-6 w-6" />
@@ -345,11 +462,18 @@ function JobOrdersSection() {
                   </Button>
                 </CardContent>
               </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {totalPages > 1 && (
-            <div className="mt-8 flex items-center justify-center gap-3">
+            <motion.div
+              className="mt-8 flex items-center justify-center gap-3"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewport}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+            >
               <Button
                 variant="outline"
                 size="icon"
@@ -369,7 +493,7 @@ function JobOrdersSection() {
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
-            </div>
+            </motion.div>
           )}
         </>
       )}
@@ -380,18 +504,26 @@ function JobOrdersSection() {
 function TrainingSection() {
   return (
     <Section id="dao-tao" eyebrow="Đào tạo" title="Lộ trình học tiếng Đức gắn với mục tiêu hồ sơ" className="bg-neutral-50">
-      <div className="grid gap-5 md:grid-cols-2">
+      <motion.div
+        className="grid gap-5 md:grid-cols-2"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {courseSeed.map((course) => (
-          <Card key={course.slug}>
-            <CardContent>
-              <BookOpen className="h-8 w-8 text-red-600" />
-              <h3 className="mt-4 text-xl font-black">{course.title}</h3>
-              <p className="mt-2 text-sm font-semibold text-neutral-500">{course.duration}</p>
-              <p className="mt-3 text-sm leading-6 text-neutral-600">{course.description}</p>
-            </CardContent>
-          </Card>
+          <motion.div key={course.slug} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
+            <Card className="h-full">
+              <CardContent>
+                <BookOpen className="h-8 w-8 text-red-600" />
+                <h3 className="mt-4 text-xl font-black">{course.title}</h3>
+                <p className="mt-2 text-sm font-semibold text-neutral-500">{course.duration}</p>
+                <p className="mt-3 text-sm leading-6 text-neutral-600">{course.description}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -400,7 +532,12 @@ function RecognitionSection() {
   return (
     <section id="cong-nhan-bang" className="bg-[#0B0B0B] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
-        <div>
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={viewport}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
           <div className="inline-flex rounded-md bg-[#FFCE00] px-3 py-2 text-sm font-black text-black">
             Công nhận bằng CHLB Đức
           </div>
@@ -415,17 +552,28 @@ function RecognitionSection() {
               Kiểm tra khả năng công nhận bằng
             </a>
           </Button>
-        </div>
-        <div className="grid gap-3">
+        </motion.div>
+        <motion.div
+          className="grid gap-3"
+          variants={staggerGrid}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           {recognitionSteps.map((step, index) => (
-            <div key={step} className="flex items-center gap-4 rounded-lg border border-white/10 bg-white/5 p-4">
+            <motion.div
+              key={step}
+              variants={cardReveal}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="flex items-center gap-4 rounded-lg border border-white/10 bg-white/5 p-4"
+            >
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white text-sm font-black text-black">
                 {index + 1}
               </span>
               <p className="text-sm font-semibold leading-6 text-neutral-100">{step}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -434,17 +582,28 @@ function RecognitionSection() {
 function CommitmentSection() {
   return (
     <Section id="cam-ket" eyebrow="Cam kết" title="Vì sao nên chọn chúng tôi?">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <motion.div
+        className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {commitments.map((commitment) => (
-          <div key={commitment.title} className="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg">
+          <motion.div
+            key={commitment.title}
+            variants={cardReveal}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg"
+          >
             <span className="grid h-11 w-11 place-items-center rounded-md bg-red-50 text-red-700">
               <commitment.icon className="h-6 w-6" />
             </span>
             <h3 className="mt-4 text-lg font-black">{commitment.title}</h3>
             <p className="mt-2 text-sm leading-6 text-neutral-600">{commitment.text}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -457,27 +616,35 @@ function TestimonialsSection() {
       title="Học viên đã tin tưởng lựa chọn chúng tôi"
       className="bg-neutral-50"
     >
-      <div className="grid gap-5 md:grid-cols-3">
+      <motion.div
+        className="grid gap-5 md:grid-cols-3"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {testimonialSeed.map((item) => (
-          <Card key={item.studentName} className="transition hover:-translate-y-1 hover:shadow-lg">
-            <CardContent className="p-6">
-              <div className="mb-5 flex items-center gap-3">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-[#0B0B0B] text-lg font-black text-[#FFCE00]">
-                  {item.studentName.charAt(0)}
+          <motion.div key={item.studentName} variants={cardReveal} transition={{ duration: 0.45, ease: "easeOut" }}>
+            <Card className="h-full transition hover:-translate-y-1 hover:shadow-lg">
+              <CardContent className="p-6">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="grid h-12 w-12 place-items-center rounded-full bg-[#0B0B0B] text-lg font-black text-[#FFCE00]">
+                    {item.studentName.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-black">{item.studentName}</p>
+                    <p className="text-sm text-neutral-500">{item.program}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-black">{item.studentName}</p>
-                  <p className="text-sm text-neutral-500">{item.program}</p>
+                <p className="text-sm leading-7 text-neutral-700">“{item.content}”</p>
+                <div className="mt-5 border-t border-neutral-200 pt-4">
+                  <Badge>{item.status}</Badge>
                 </div>
-              </div>
-              <p className="text-sm leading-7 text-neutral-700">“{item.content}”</p>
-              <div className="mt-5 border-t border-neutral-200 pt-4">
-                <Badge>{item.status}</Badge>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -485,14 +652,25 @@ function TestimonialsSection() {
 function FaqSection() {
   return (
     <Section id="faq" eyebrow="FAQ" title="Câu hỏi thường gặp">
-      <div className="mx-auto grid max-w-4xl gap-3">
+      <motion.div
+        className="mx-auto grid max-w-4xl gap-3"
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {faqSeed.map((faq) => (
-          <details key={faq.question} className="rounded-lg border border-neutral-200 bg-white p-4 open:border-red-200 open:bg-red-50/40">
+          <motion.details
+            key={faq.question}
+            variants={cardReveal}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="rounded-lg border border-neutral-200 bg-white p-4 open:border-red-200 open:bg-red-50/40"
+          >
             <summary className="cursor-pointer text-sm font-black text-neutral-900">{faq.question}</summary>
             <p className="mt-3 text-sm leading-6 text-neutral-600">{faq.answer}</p>
-          </details>
+          </motion.details>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
@@ -501,7 +679,12 @@ function ContactSection() {
   return (
     <section id="lien-he" className="bg-neutral-50">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
-        <div>
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={viewport}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
           <h2 className="text-3xl font-black leading-tight sm:text-4xl">
             Đăng ký kiểm tra lộ trình miễn phí
           </h2>
@@ -529,12 +712,19 @@ function ContactSection() {
               </a>
             </Button>
           </div>
-        </div>
-        <Card>
-          <CardContent className="p-5 sm:p-6">
-            <LeadForm />
-          </CardContent>
-        </Card>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={viewport}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
+          <Card>
+            <CardContent className="p-5 sm:p-6">
+              <LeadForm />
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </section>
   );
@@ -556,16 +746,26 @@ function Section({
   void _eyebrow;
 
   return (
-    <section id={id} className={className}>
+    <motion.section
+      id={id}
+      className={className}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+    >
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mb-9 max-w-3xl">
+        <motion.div
+          className="mb-9 max-w-3xl"
+          variants={fadeUp}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           <h2 className="text-3xl font-black leading-tight tracking-normal sm:text-4xl">
             {title}
           </h2>
-        </div>
+        </motion.div>
         {children}
       </div>
-    </section>
+    </motion.section>
   );
 }
 
